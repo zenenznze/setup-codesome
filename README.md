@@ -2,9 +2,27 @@
 
 Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后只需要按提示粘贴 API Key。
 
-适用环境：Linux / macOS / WSL 的 Bash 或 Zsh。Windows PowerShell 用户请参考对应教程里的 PowerShell 命令。
+脚本分两类：
+
+- `setup-*.sh`：只做配置，适合已经装好 Claude Code / CodeX / VS Code 插件的用户。
+- `install-*.sh`：完整安装 + 配置，会自动判断 Windows / macOS / Linux / WSL，先安装所需 CLI 或插件，再写入配置。
+
+推荐新用户直接使用 `install-*.sh` 完整脚本。
 
 ## 脚本列表
+
+### 完整安装 + 配置脚本
+
+| 序号 | 脚本 | 用途 | 适用用户 |
+| --- | --- | --- | --- |
+| 1 | `install-claude-claude-codesome.sh` | 安装 Claude Code，并配置 Claude 模型 | 按量分组 lite / pro / max、codex 月卡 |
+| 2 | `install-claude-claude-aio.sh` | 安装 Claude Code，并配置 Claude 模型 | 二合一月卡 |
+| 3 | `install-claude-gpt-codesome.sh` | 安装 Claude Code，并引导 ccswitch 配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
+| 4 | `install-codex-gpt-codesome.sh` | 安装 CodeX，并配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
+| 5 | `install-codex-gpt-aio.sh` | 安装 CodeX，并配置 GPT 模型 | 二合一月卡 |
+| 6 | `install-vscode-claude-codesome.sh` | 安装 Claude Code 和 VS Code Claude Code 插件，并写入插件配置 | 按量分组 lite / pro / max、codex 月卡 |
+
+### 仅配置脚本
 
 | 序号 | 脚本 | 用途 | 适用用户 |
 | --- | --- | --- | --- |
@@ -15,7 +33,141 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 | 5 | `setup-codex-gpt-aio.sh` | CodeX 里配置 GPT 模型 | 二合一月卡 |
 | 6 | `setup-vscode-claude-codesome.sh` | VS Code 插件里使用 Claude 模型 | 按量分组 lite / pro / max、codex 月卡 |
 
-## GitHub 快速使用
+## GitHub 快速使用：完整安装 + 配置
+
+### 1. Claude Code 配置 Claude 模型
+
+适用于按量分组 lite / pro / max、codex 月卡。
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-codesome.sh
+chmod +x install-claude-claude-codesome.sh
+./install-claude-claude-codesome.sh
+```
+
+会自动安装：
+
+- Windows：Claude Code 官方 PowerShell 安装器
+- macOS / Linux / WSL：Node.js LTS，`@anthropic-ai/claude-code`
+
+会写入：
+
+- `ANTHROPIC_BASE_URL=https://cc.codesome.ai`
+- `ANTHROPIC_AUTH_TOKEN=你输入的 sk-... API Key`
+- `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`
+
+验证：
+
+```bash
+claude
+```
+
+### 2. Claude Code 配置 Claude 模型，二合一月卡
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-aio.sh
+chmod +x install-claude-claude-aio.sh
+./install-claude-claude-aio.sh
+```
+
+会自动安装 Claude Code，并写入：
+
+- `ANTHROPIC_BASE_URL=https://aio.codesome.ai/api`
+- `ANTHROPIC_AUTH_TOKEN=你输入的 cr-... API Key`
+- `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`
+
+验证：
+
+```bash
+claude
+```
+
+### 3. Claude Code 配置 GPT 模型
+
+这个场景需要 `ccswitch` 做 API 格式转换，不能只靠写环境变量稳定完成。完整脚本会安装 Claude Code，并在 macOS 上尝试通过 Homebrew 安装 ccswitch；Windows 会提示下载 `.msi`。
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-gpt-codesome.sh
+chmod +x install-claude-gpt-codesome.sh
+./install-claude-gpt-codesome.sh
+```
+
+请在 `ccswitch` 中配置：
+
+- 供应商名称：`codesome`
+- 请求地址：`https://cc.codesome.ai`
+- API 格式：`openai response api`
+- 模型 ID：`gpt-5.5`
+- 开启本地代理开关
+
+### 4. CodeX 配置 GPT 模型
+
+适用于按量 codex 分组、codex 月卡。
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-codesome.sh
+chmod +x install-codex-gpt-codesome.sh
+./install-codex-gpt-codesome.sh
+```
+
+会自动安装：
+
+- Windows：Node.js LTS（优先 `winget`），`@openai/codex`
+- macOS / Linux / WSL：Node.js LTS，`@openai/codex`
+
+会写入：
+
+- `~/.codex/config.toml`
+- `CODEX_HOME=$HOME/.codex`
+- `CODESOME_API_KEY=你输入的 sk-... API Key`
+- `base_url=https://cc.codesome.ai/v1`
+- `model=gpt-5.5`
+
+验证：
+
+```bash
+codex
+```
+
+### 5. CodeX 配置 GPT 模型，二合一月卡
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-aio.sh
+chmod +x install-codex-gpt-aio.sh
+./install-codex-gpt-aio.sh
+```
+
+会自动安装 CodeX，并写入：
+
+- `~/.codex/config.toml`
+- `CODEX_HOME=$HOME/.codex`
+- `CODESOME_API_KEY=你输入的 cr-... API Key`
+- `base_url=https://aio.codesome.ai/openai`
+- `model=gpt-5.5`
+
+验证：
+
+```bash
+codex
+```
+
+### 6. VS Code 插件里使用 Claude 模型
+
+适用于按量分组 lite / pro / max、codex 月卡。
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-vscode-claude-codesome.sh
+chmod +x install-vscode-claude-codesome.sh
+./install-vscode-claude-codesome.sh
+```
+
+会自动安装 Claude Code，并在检测到 `code` 命令时安装 VS Code 扩展：
+
+- `anthropic.claude-code`
+
+会写入 `~/.claude/settings.json`。配置完成后，完全退出并重启 VS Code。
+
+## GitHub 快速使用：仅配置
 
 ### 1. Claude Code 配置 Claude 模型
 
@@ -150,7 +302,7 @@ chmod +x setup-vscode-claude-codesome.sh
 
 ## Gitee 快速使用
 
-国内网络优先使用 Gitee raw 链接。仓库创建并同步后，可把上面的 GitHub 地址替换为：
+国内网络优先使用 Gitee raw 链接。仓库公开后，可把上面的 GitHub 地址替换为：
 
 ```text
 https://gitee.com/hicodesome/setup-codesome/raw/master/<脚本名>
@@ -159,15 +311,17 @@ https://gitee.com/hicodesome/setup-codesome/raw/master/<脚本名>
 示例：
 
 ```bash
-curl -fsSLO https://gitee.com/hicodesome/setup-codesome/raw/master/setup-codex-gpt-codesome.sh
-chmod +x setup-codex-gpt-codesome.sh
-./setup-codex-gpt-codesome.sh
+curl -fsSLO https://gitee.com/hicodesome/setup-codesome/raw/master/install-codex-gpt-codesome.sh
+chmod +x install-codex-gpt-codesome.sh
+./install-codex-gpt-codesome.sh
 ```
+
+注意：如果 Gitee 仓库还是私有，匿名 raw 链接会返回 403。
 
 ## 通用说明
 
 - 脚本运行后只需要输入 API Key。
-- 也可以直接传 key，例如：`./setup-codex-gpt-codesome.sh "sk-..."`
+- 也可以直接传 key，例如：`./install-codex-gpt-codesome.sh "sk-..."`
 - 脚本会清理相关旧环境变量，再写入新配置。
 - 修改 shell 配置文件时会生成 `.bak` 备份。
 - 配置后建议新开一个终端验证。
