@@ -327,6 +327,10 @@ chmod +x install-codex-gpt-codesome.sh
 - 配置后建议新开一个终端验证。
 - 如果使用桌面客户端或 VS Code 插件，需要完全退出并重启应用。
 
+## 测试记录
+
+- [Linux 远端真机完整安装测试：2026-05-05](docs/linux-remote-install-test-2026-05-05.md)
+
 ## 开源协议
 
 MIT License
