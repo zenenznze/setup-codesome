@@ -195,6 +195,6 @@ c7a5ffe Install git in full setup scripts
 ## Known Limitations
 
 - This test only covered Linux.
-- Windows and macOS installation paths are implemented but not real-machine tested in this run.
+- Windows PowerShell `.ps1` entrypoints and macOS installation paths are implemented but not real-machine tested in this run.
 - VS Code extension auto-install requires the `code` command to be available in PATH.
 - Claude Code GPT usage still requires ccswitch; scripts cannot fully automate the ccswitch GUI configuration.

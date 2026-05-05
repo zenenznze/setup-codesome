@@ -5,7 +5,8 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 脚本分两类：
 
 - `setup-*.sh`：只做配置，适合已经装好 Claude Code / CodeX / VS Code 插件的用户。
-- `install-*.sh`：完整安装 + 配置，会自动判断 Windows / macOS / Linux / WSL，先安装所需 CLI 或插件，再写入配置。
+- `install-*.ps1`：Windows PowerShell 完整安装 + 配置入口，推荐 Windows 用户使用。
+- `install-*.sh`：macOS / Linux / WSL / Git Bash 完整安装 + 配置入口。
 
 推荐新用户直接使用 `install-*.sh` 完整脚本。
 
@@ -15,12 +16,12 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 
 | 序号 | 脚本 | 用途 | 适用用户 |
 | --- | --- | --- | --- |
-| 1 | `install-claude-claude-codesome.sh` | 安装 Claude Code，并配置 Claude 模型 | 按量分组 lite / pro / max、codex 月卡 |
-| 2 | `install-claude-claude-aio.sh` | 安装 Claude Code，并配置 Claude 模型 | 二合一月卡 |
-| 3 | `install-claude-gpt-codesome.sh` | 安装 Claude Code，并引导 ccswitch 配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
-| 4 | `install-codex-gpt-codesome.sh` | 安装 CodeX，并配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
-| 5 | `install-codex-gpt-aio.sh` | 安装 CodeX，并配置 GPT 模型 | 二合一月卡 |
-| 6 | `install-vscode-claude-codesome.sh` | 安装 Claude Code 和 VS Code Claude Code 插件，并写入插件配置 | 按量分组 lite / pro / max、codex 月卡 |
+| 1 | `install-claude-claude-codesome.ps1` / `install-claude-claude-codesome.sh` | 安装 Claude Code，并配置 Claude 模型 | 按量分组 lite / pro / max、codex 月卡 |
+| 2 | `install-claude-claude-aio.ps1` / `install-claude-claude-aio.sh` | 安装 Claude Code，并配置 Claude 模型 | 二合一月卡 |
+| 3 | `install-claude-gpt-codesome.ps1` / `install-claude-gpt-codesome.sh` | 安装 Claude Code，并引导 ccswitch 配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
+| 4 | `install-codex-gpt-codesome.ps1` / `install-codex-gpt-codesome.sh` | 安装 CodeX，并配置 GPT 模型 | 按量 codex 分组、codex 月卡 |
+| 5 | `install-codex-gpt-aio.ps1` / `install-codex-gpt-aio.sh` | 安装 CodeX，并配置 GPT 模型 | 二合一月卡 |
+| 6 | `install-vscode-claude-codesome.ps1` / `install-vscode-claude-codesome.sh` | 安装 Claude Code 和 VS Code Claude Code 插件，并写入插件配置 | 按量分组 lite / pro / max、codex 月卡 |
 
 ### 仅配置脚本
 
@@ -38,6 +39,14 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 ### 1. Claude Code 配置 Claude 模型
 
 适用于按量分组 lite / pro / max、codex 月卡。
+
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-codesome.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
 
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-codesome.sh
@@ -64,6 +73,14 @@ claude
 
 ### 2. Claude Code 配置 Claude 模型，二合一月卡
 
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-aio.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
+
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-aio.sh
 chmod +x install-claude-claude-aio.sh
@@ -86,6 +103,14 @@ claude
 
 这个场景需要 `ccswitch` 做 API 格式转换，不能只靠写环境变量稳定完成。完整脚本会安装 Claude Code，并在 macOS 上尝试通过 Homebrew 安装 ccswitch；Windows 会提示下载 `.msi`。
 
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-gpt-codesome.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
+
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-gpt-codesome.sh
 chmod +x install-claude-gpt-codesome.sh
@@ -103,6 +128,14 @@ chmod +x install-claude-gpt-codesome.sh
 ### 4. CodeX 配置 GPT 模型
 
 适用于按量 codex 分组、codex 月卡。
+
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-codesome.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
 
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-codesome.sh
@@ -131,6 +164,14 @@ codex
 
 ### 5. CodeX 配置 GPT 模型，二合一月卡
 
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-aio.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
+
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-aio.sh
 chmod +x install-codex-gpt-aio.sh
@@ -154,6 +195,14 @@ codex
 ### 6. VS Code 插件里使用 Claude 模型
 
 适用于按量分组 lite / pro / max、codex 月卡。
+
+Windows PowerShell：
+
+```powershell
+irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-vscode-claude-codesome.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
 
 ```bash
 curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-vscode-claude-codesome.sh
@@ -310,6 +359,14 @@ https://gitee.com/hicodesome/setup-codesome/raw/master/<脚本名>
 
 示例：
 
+Windows PowerShell：
+
+```powershell
+irm https://gitee.com/hicodesome/setup-codesome/raw/master/install-codex-gpt-codesome.ps1 | iex
+```
+
+macOS / Linux / WSL / Git Bash：
+
 ```bash
 curl -fsSLO https://gitee.com/hicodesome/setup-codesome/raw/master/install-codex-gpt-codesome.sh
 chmod +x install-codex-gpt-codesome.sh
@@ -322,6 +379,7 @@ chmod +x install-codex-gpt-codesome.sh
 
 - 脚本运行后只需要输入 API Key。
 - 也可以直接传 key，例如：`./install-codex-gpt-codesome.sh "sk-..."`
+- Windows PowerShell 可以直接使用 `irm ...ps1 | iex`，不需要先安装 Git Bash。
 - 脚本会清理相关旧环境变量，再写入新配置。
 - 修改 shell 配置文件时会生成 `.bak` 备份。
 - 配置后建议新开一个终端验证。
