@@ -22,7 +22,7 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 适用于按量分组 lite / pro / max、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-claude-codesome.sh
 chmod +x setup-claude-claude-codesome.sh
 ./setup-claude-claude-codesome.sh
 ```
@@ -42,7 +42,7 @@ claude
 ### 2. Claude Code 配置 Claude 模型，二合一月卡
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-claude-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-claude-aio.sh
 chmod +x setup-claude-claude-aio.sh
 ./setup-claude-claude-aio.sh
 ```
@@ -64,7 +64,7 @@ claude
 这个场景需要 `ccswitch` 做 API 格式转换，不能只靠写环境变量稳定完成。脚本仅保留为说明入口：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-gpt-codesome.sh
 chmod +x setup-claude-gpt-codesome.sh
 ./setup-claude-gpt-codesome.sh
 ```
@@ -82,7 +82,7 @@ chmod +x setup-claude-gpt-codesome.sh
 适用于按量 codex 分组、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-codex-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-codex-gpt-codesome.sh
 chmod +x setup-codex-gpt-codesome.sh
 ./setup-codex-gpt-codesome.sh
 ```
@@ -104,7 +104,7 @@ codex
 ### 5. CodeX 配置 GPT 模型，二合一月卡
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-codex-gpt-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-codex-gpt-aio.sh
 chmod +x setup-codex-gpt-aio.sh
 ./setup-codex-gpt-aio.sh
 ```
@@ -128,7 +128,7 @@ codex
 适用于按量分组 lite / pro / max、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-vscode-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-vscode-claude-codesome.sh
 chmod +x setup-vscode-claude-codesome.sh
 ./setup-vscode-claude-codesome.sh
 ```
