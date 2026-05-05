@@ -41,6 +41,22 @@ ensure_node_unix() {
   fi
 }
 
+ensure_git() {
+  if has git || has git.exe; then log "Git 已安装"; return 0; fi
+  case "$(os_name)" in
+    windows)
+      log "Windows: 安装 Git..."
+      powershell.exe -NoProfile -ExecutionPolicy Bypass -Command 'if (Get-Command winget -ErrorAction SilentlyContinue) { winget install Git.Git -e --accept-source-agreements --accept-package-agreements } else { throw "请先安装 Git for Windows: https://git-scm.com/download/win" }'
+      ;;
+    macos)
+      if has brew; then brew install git; else xcode-select --install || warn "请按系统提示安装 Command Line Tools"; fi
+      ;;
+    linux|wsl)
+      if has apt-get; then sudo apt-get update && sudo apt-get install -y git; else err "请先安装 git"; exit 1; fi
+      ;;
+  esac
+}
+
 install_claude() {
   OS="$(os_name)"
   if has claude || has claude.exe; then log "Claude Code 已安装"; return 0; fi
@@ -99,6 +115,7 @@ echo "============================================"
 echo " 完整安装 + 配置：Claude Code / Claude 模型 / Codesome"
 echo "============================================"
 read_key "${1:-}"
+ensure_git
 install_claude
 if [ "$(os_name)" = "windows" ]; then configure_windows; else configure_unix; fi
 log "完成。新开终端后运行 claude 验证。"
