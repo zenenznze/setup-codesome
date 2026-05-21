@@ -14,7 +14,7 @@ Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后
 ## 统一交互式配置
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup.sh
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -64,7 +64,7 @@ chmod +x setup.sh
 适用于按量分组 lite / pro / max、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-claude-codesome.sh
 chmod +x setup-claude-claude-codesome.sh
 ./setup-claude-claude-codesome.sh
 ```
@@ -84,7 +84,7 @@ claude
 ### 2. Claude Code 配置 Claude 模型，二合一月卡
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-claude-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-claude-aio.sh
 chmod +x setup-claude-claude-aio.sh
 ./setup-claude-claude-aio.sh
 ```
@@ -106,7 +106,7 @@ claude
 这个场景需要 `ccswitch` 做 API 格式转换，不能只靠写环境变量稳定完成。脚本仅保留为说明入口：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-claude-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-claude-gpt-codesome.sh
 chmod +x setup-claude-gpt-codesome.sh
 ./setup-claude-gpt-codesome.sh
 ```
@@ -124,7 +124,7 @@ chmod +x setup-claude-gpt-codesome.sh
 适用于按量 codex 分组、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-codex-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-codex-gpt-codesome.sh
 chmod +x setup-codex-gpt-codesome.sh
 ./setup-codex-gpt-codesome.sh
 ```
@@ -146,7 +146,7 @@ codex
 ### 5. CodeX 配置 GPT 模型，二合一月卡
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-codex-gpt-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-codex-gpt-aio.sh
 chmod +x setup-codex-gpt-aio.sh
 ./setup-codex-gpt-aio.sh
 ```
@@ -170,7 +170,7 @@ codex
 适用于按量分组 lite / pro / max、codex 月卡。
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup-vscode-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/setup-vscode-claude-codesome.sh
 chmod +x setup-vscode-claude-codesome.sh
 ./setup-vscode-claude-codesome.sh
 ```
@@ -199,13 +199,13 @@ chmod +x setup-vscode-claude-codesome.sh
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-codesome.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-claude-codesome.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-claude-codesome.sh
 chmod +x install-claude-claude-codesome.sh
 ./install-claude-claude-codesome.sh
 ```
@@ -232,13 +232,13 @@ claude
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-aio.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-claude-aio.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-claude-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-claude-aio.sh
 chmod +x install-claude-claude-aio.sh
 ./install-claude-claude-aio.sh
 ```
@@ -262,13 +262,13 @@ claude
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-gpt-codesome.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-gpt-codesome.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-claude-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-claude-gpt-codesome.sh
 chmod +x install-claude-gpt-codesome.sh
 ./install-claude-gpt-codesome.sh
 ```
@@ -288,13 +288,13 @@ chmod +x install-claude-gpt-codesome.sh
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-codesome.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-codex-gpt-codesome.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-codex-gpt-codesome.sh
 chmod +x install-codex-gpt-codesome.sh
 ./install-codex-gpt-codesome.sh
 ```
@@ -323,13 +323,13 @@ codex
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-aio.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-codex-gpt-aio.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-codex-gpt-aio.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-codex-gpt-aio.sh
 chmod +x install-codex-gpt-aio.sh
 ./install-codex-gpt-aio.sh
 ```
@@ -355,13 +355,13 @@ codex
 Windows PowerShell：
 
 ```powershell
-irm https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-vscode-claude-codesome.ps1 | iex
+irm https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-vscode-claude-codesome.ps1 | iex
 ```
 
 macOS / Linux / WSL / Git Bash：
 
 ```bash
-curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/install-vscode-claude-codesome.sh
+curl -fsSLO https://raw.githubusercontent.com/zenenznze/setup-codesome/master/install-vscode-claude-codesome.sh
 chmod +x install-vscode-claude-codesome.sh
 ./install-vscode-claude-codesome.sh
 ```
@@ -371,32 +371,6 @@ chmod +x install-vscode-claude-codesome.sh
 - `anthropic.claude-code`
 
 会写入 `~/.claude/settings.json`。配置完成后，完全退出并重启 VS Code。
-
-## Gitee 快速使用
-
-国内网络优先使用 Gitee raw 链接。仓库公开后，可把上面的 GitHub 地址替换为：
-
-```text
-https://gitee.com/hicodesome/setup-codesome/raw/master/<脚本名>
-```
-
-示例：
-
-Windows PowerShell：
-
-```powershell
-irm https://gitee.com/hicodesome/setup-codesome/raw/master/install-codex-gpt-codesome.ps1 | iex
-```
-
-macOS / Linux / WSL / Git Bash：
-
-```bash
-curl -fsSLO https://gitee.com/hicodesome/setup-codesome/raw/master/install-codex-gpt-codesome.sh
-chmod +x install-codex-gpt-codesome.sh
-./install-codex-gpt-codesome.sh
-```
-
-注意：如果 Gitee 仓库还是私有，匿名 raw 链接会返回 403。
 
 ## 通用说明
 

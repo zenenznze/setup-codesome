@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RAW_BASE="${RAW_BASE:-https://raw.githubusercontent.com/hicodesome/setup-codesome/master}"
+RAW_BASE="${RAW_BASE:-https://raw.githubusercontent.com/zenenznze/setup-codesome/master}"
 CONFIG_SCRIPT="setup-vscode-claude-codesome.sh"
 BASE_URL="https://cc.codesome.ai"
 
