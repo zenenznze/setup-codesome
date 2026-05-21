@@ -11,6 +11,7 @@ warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
 err() { echo -e "${RED}[ERR]${NC} $*"; }
 
 BASE_URL="https://aio.codesome.ai/api"
+SETTINGS_FILE="$HOME/.claude/settings.json"
 TITLE="Claude Code 配置 Claude 模型 - 二合一月卡"
 
 echo "============================================"
@@ -30,14 +31,7 @@ if [[ -z "$API_KEY" ]]; then
   exit 1
 fi
 
-CURRENT_SHELL=$(basename "${SHELL:-/bin/bash}")
-case "$CURRENT_SHELL" in
-  zsh) TARGET_RC="$HOME/.zshrc" ;;
-  *) TARGET_RC="$HOME/.bashrc" ;;
-esac
-mkdir -p "$HOME"
-touch "$TARGET_RC"
-log "检测到 shell: $CURRENT_SHELL，配置文件: $TARGET_RC"
+log "只清理 Claude Code 相关环境变量，不写入 shell rc"
 
 log "清理 Claude Code 旧环境变量和残留配置..."
 for var in \
@@ -61,25 +55,27 @@ for f in ~/.bashrc ~/.bash_profile ~/.zshrc ~/.profile ~/.zprofile ~/.zshenv; do
   fi
 done
 
-rm -f ~/.claude/config.json ~/.claude/settings.json
+rm -f ~/.claude/config.json
 
-ESCAPED_KEY=$(printf "%s" "$API_KEY" | sed "s/'/'\\\\''/g")
-cat >> "$TARGET_RC" <<EOF
-
-# ---- Claude Code via Codesome ----
-export ANTHROPIC_BASE_URL="$BASE_URL"
-export ANTHROPIC_AUTH_TOKEN='$ESCAPED_KEY'
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+mkdir -p ~/.claude
+JSON_KEY=$(printf "%s" "$API_KEY" | sed 's/\\/\\\\/g; s/"/\\"/g')
+cat > "$SETTINGS_FILE" <<EOF
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "$BASE_URL",
+    "ANTHROPIC_AUTH_TOKEN": "$JSON_KEY",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+  },
+  "includeCoAuthoredBy": false
+}
 EOF
-
-export ANTHROPIC_BASE_URL="$BASE_URL"
-export ANTHROPIC_AUTH_TOKEN="$API_KEY"
-export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+chmod 600 "$SETTINGS_FILE"
 
 echo ""
 log "配置完成"
-echo "ANTHROPIC_BASE_URL=$ANTHROPIC_BASE_URL"
-echo "ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:0:12}..."
-echo "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=$CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"
+echo "settings=$SETTINGS_FILE"
+echo "ANTHROPIC_BASE_URL=$BASE_URL"
+echo "ANTHROPIC_AUTH_TOKEN=${API_KEY:0:12}..."
 echo ""
 log "请新开一个终端，输入 claude 验证。"

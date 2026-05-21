@@ -96,10 +96,15 @@ model_auto_compact_token_limit = 900000
 name = "Codesome"
 base_url = "'"$BASE_URL"'"
 wire_api = "responses"
-env_key = "CODESOME_API_KEY"
+requires_openai_auth = true
+
+[features]
+goals = true
 "@ | Set-Content -Encoding UTF8 (Join-Path $CodexHome "config.toml")
-    [Environment]::SetEnvironmentVariable("CODEX_HOME", $CodexHome, "User")
-    [Environment]::SetEnvironmentVariable("CODESOME_API_KEY", $Key, "User")
+    @{ OPENAI_API_KEY = $Key } | ConvertTo-Json -Depth 2 | Set-Content -Encoding UTF8 (Join-Path $CodexHome "auth.json")
+    [Environment]::SetEnvironmentVariable("CODEX_HOME", $null, "User")
+    [Environment]::SetEnvironmentVariable("CODESOME_API_KEY", $null, "User")
+    [Environment]::SetEnvironmentVariable("OPENAI_API_KEY", $null, "User")
     Write-Host "CodeX 配置完成。请新开 PowerShell，输入 codex 验证。"
   '
 }

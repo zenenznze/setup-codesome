@@ -2,13 +2,36 @@
 
 Codesome 一键配置脚本集合。用户通过 `curl` 下载脚本，运行后只需要按提示粘贴 API Key。
 
-脚本分两类：
+脚本分三类：
 
+- `setup.sh`：统一交互式配置入口，选择要配置的客户端后再输入 API Key。
 - `setup-*.sh`：只做配置，适合已经装好 Claude Code / CodeX / VS Code 插件的用户。**大多数时候你只需要这个。**
 - `install-*.ps1`：Windows PowerShell 完整安装 + 配置入口。
 - `install-*.sh`：macOS / Linux / WSL / Git Bash 完整安装 + 配置入口，适合首次安装的用户。
 
-如果你已经装过工具，直接跳到下面「仅配置」脚本；只有全新环境才需要完整安装脚本。
+如果你已经装过工具，优先使用下面的 `setup.sh` 或「仅配置」脚本；只有全新环境才需要完整安装脚本。
+
+## 统一交互式配置
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/hicodesome/setup-codesome/master/setup.sh
+chmod +x setup.sh
+./setup.sh
+```
+
+脚本会让你选择：
+
+- Claude Code / Claude 模型 / Codesome
+- Claude Code / Claude 模型 / 二合一月卡
+- CodeX / GPT 模型 / Codesome
+- CodeX / GPT 模型 / 二合一月卡
+- VS Code Claude Code 插件 / Claude 模型 / Codesome
+
+清理策略：
+
+- 配置 Claude Code 或 VS Code 插件时，只清理 Claude Code 相关环境变量残留，并写入 `~/.claude/settings.json`。
+- 配置 CodeX 时，只清理 CodeX 相关环境变量残留，并写入 `~/.codex/auth.json` 和 `~/.codex/config.toml`。
+- 不会因为配置某一个客户端而删除另一个客户端的配置文件。
 
 ## 脚本列表
 
@@ -46,7 +69,7 @@ chmod +x setup-claude-claude-codesome.sh
 ./setup-claude-claude-codesome.sh
 ```
 
-写入：
+写入 `~/.claude/settings.json`：
 
 - `ANTHROPIC_BASE_URL=https://cc.codesome.ai`
 - `ANTHROPIC_AUTH_TOKEN=你输入的 sk-... API Key`
@@ -66,7 +89,7 @@ chmod +x setup-claude-claude-aio.sh
 ./setup-claude-claude-aio.sh
 ```
 
-写入：
+写入 `~/.claude/settings.json`：
 
 - `ANTHROPIC_BASE_URL=https://aio.codesome.ai/api`
 - `ANTHROPIC_AUTH_TOKEN=你输入的 cr-... API Key`
@@ -108,9 +131,9 @@ chmod +x setup-codex-gpt-codesome.sh
 
 写入：
 
+- `~/.codex/auth.json`
 - `~/.codex/config.toml`
-- `CODEX_HOME=$HOME/.codex`
-- `CODESOME_API_KEY=你输入的 sk-... API Key`
+- `OPENAI_API_KEY=你输入的 sk-... API Key`
 - `base_url=https://cc.codesome.ai/v1`
 - `model=gpt-5.5`
 
@@ -130,9 +153,9 @@ chmod +x setup-codex-gpt-aio.sh
 
 写入：
 
+- `~/.codex/auth.json`
 - `~/.codex/config.toml`
-- `CODEX_HOME=$HOME/.codex`
-- `CODESOME_API_KEY=你输入的 cr-... API Key`
+- `OPENAI_API_KEY=你输入的 cr-... API Key`
 - `base_url=https://aio.codesome.ai/openai`
 - `model=gpt-5.5`
 
@@ -192,7 +215,7 @@ chmod +x install-claude-claude-codesome.sh
 - Windows：Claude Code 官方 PowerShell 安装器
 - macOS / Linux / WSL：Node.js LTS，`@anthropic-ai/claude-code`
 
-会写入：
+会写入 `~/.claude/settings.json`：
 
 - `ANTHROPIC_BASE_URL=https://cc.codesome.ai`
 - `ANTHROPIC_AUTH_TOKEN=你输入的 sk-... API Key`
@@ -220,7 +243,7 @@ chmod +x install-claude-claude-aio.sh
 ./install-claude-claude-aio.sh
 ```
 
-会自动安装 Claude Code，并写入：
+会自动安装 Claude Code，并写入 `~/.claude/settings.json`：
 
 - `ANTHROPIC_BASE_URL=https://aio.codesome.ai/api`
 - `ANTHROPIC_AUTH_TOKEN=你输入的 cr-... API Key`
@@ -283,9 +306,9 @@ chmod +x install-codex-gpt-codesome.sh
 
 会写入：
 
+- `~/.codex/auth.json`
 - `~/.codex/config.toml`
-- `CODEX_HOME=$HOME/.codex`
-- `CODESOME_API_KEY=你输入的 sk-... API Key`
+- `OPENAI_API_KEY=你输入的 sk-... API Key`
 - `base_url=https://cc.codesome.ai/v1`
 - `model=gpt-5.5`
 
@@ -313,9 +336,9 @@ chmod +x install-codex-gpt-aio.sh
 
 会自动安装 CodeX，并写入：
 
+- `~/.codex/auth.json`
 - `~/.codex/config.toml`
-- `CODEX_HOME=$HOME/.codex`
-- `CODESOME_API_KEY=你输入的 cr-... API Key`
+- `OPENAI_API_KEY=你输入的 cr-... API Key`
 - `base_url=https://aio.codesome.ai/openai`
 - `model=gpt-5.5`
 
@@ -380,8 +403,8 @@ chmod +x install-codex-gpt-codesome.sh
 - 脚本运行后只需要输入 API Key。
 - 也可以直接传 key，例如：`./install-codex-gpt-codesome.sh "sk-..."`
 - Windows PowerShell 可以直接使用 `irm ...ps1 | iex`，不需要先安装 Git Bash。
-- 脚本会清理相关旧环境变量，再写入新配置。
-- 修改 shell 配置文件时会生成 `.bak` 备份。
+- 脚本会按所选客户端清理相关旧环境变量，再写入对应配置文件。
+- 清理 shell 配置文件中的旧环境变量时会生成 `.bak` 备份。
 - 配置后建议新开一个终端验证。
 - 如果使用桌面客户端或 VS Code 插件，需要完全退出并重启应用。
 

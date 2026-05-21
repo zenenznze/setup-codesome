@@ -75,7 +75,7 @@ install_claude() {
 }
 
 configure_windows() {
-  log "Windows: 写入 Claude Code 用户级环境变量..."
+  log "Windows: 写入 Claude Code 配置文件..."
   CODESOME_SETUP_API_KEY="$API_KEY" powershell.exe -NoProfile -ExecutionPolicy Bypass -Command '
     $Key = $env:CODESOME_SETUP_API_KEY
     $BaseUrl = "'"$BASE_URL"'"
@@ -91,13 +91,17 @@ configure_windows() {
       Remove-Item "Env:$var" -ErrorAction SilentlyContinue
     }
     Remove-Item "$HOME\.claude\config.json" -ErrorAction SilentlyContinue
-    Remove-Item "$HOME\.claude\settings.json" -ErrorAction SilentlyContinue
-    [Environment]::SetEnvironmentVariable("ANTHROPIC_BASE_URL", $BaseUrl, "User")
-    [Environment]::SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", $Key, "User")
-    [Environment]::SetEnvironmentVariable("CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC", "1", "User")
-    $env:ANTHROPIC_BASE_URL = $BaseUrl
-    $env:ANTHROPIC_AUTH_TOKEN = $Key
-    $env:CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
+    $ClaudeHome = Join-Path $HOME ".claude"
+    New-Item -ItemType Directory -Force $ClaudeHome | Out-Null
+    @{
+      env = @{
+        ANTHROPIC_BASE_URL = $BaseUrl
+        ANTHROPIC_AUTH_TOKEN = $Key
+        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
+        CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
+      }
+      includeCoAuthoredBy = $false
+    } | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 (Join-Path $ClaudeHome "settings.json")
     Write-Host "Claude Code 配置完成。请新开 PowerShell，输入 claude 验证。"
   '
 }

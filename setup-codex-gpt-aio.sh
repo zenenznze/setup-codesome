@@ -31,14 +31,7 @@ if [[ -z "$API_KEY" ]]; then
   exit 1
 fi
 
-CURRENT_SHELL=$(basename "${SHELL:-/bin/bash}")
-case "$CURRENT_SHELL" in
-  zsh) TARGET_RC="$HOME/.zshrc" ;;
-  *) TARGET_RC="$HOME/.bashrc" ;;
-esac
-mkdir -p "$HOME"
-touch "$TARGET_RC"
-log "检测到 shell: $CURRENT_SHELL，配置文件: $TARGET_RC"
+log "只清理 CodeX 相关环境变量，不写入 shell rc"
 
 log "清理 CodeX 旧配置..."
 for var in CODESOME_API_KEY CODEX_HOME OPENAI_API_KEY; do
@@ -58,6 +51,13 @@ for f in ~/.bashrc ~/.bash_profile ~/.zshrc ~/.profile ~/.zprofile ~/.zshenv; do
 done
 
 mkdir -p ~/.codex
+JSON_KEY=$(printf "%s" "$API_KEY" | sed 's/\\/\\\\/g; s/"/\\"/g')
+cat > ~/.codex/auth.json <<EOF
+{
+  "OPENAI_API_KEY": "$JSON_KEY"
+}
+EOF
+
 cat > ~/.codex/config.toml <<EOF
 model = "$MODEL"
 review_model = "$MODEL"
@@ -75,26 +75,17 @@ model_auto_compact_token_limit = 900000
 name = "Codesome"
 base_url = "$BASE_URL"
 wire_api = "responses"
-env_key = "CODESOME_API_KEY"
+requires_openai_auth = true
+
+[features]
+goals = true
 EOF
-chmod 600 ~/.codex/config.toml
-
-ESCAPED_KEY=$(printf "%s" "$API_KEY" | sed "s/'/'\\\\''/g")
-cat >> "$TARGET_RC" <<EOF
-
-# ---- CodeX via Codesome ----
-unset CODEX_HOME
-export CODEX_HOME="\$HOME/.codex"
-export CODESOME_API_KEY='$ESCAPED_KEY'
-EOF
-
-export CODEX_HOME="$HOME/.codex"
-export CODESOME_API_KEY="$API_KEY"
+chmod 600 ~/.codex/auth.json ~/.codex/config.toml
 
 echo ""
 log "配置完成"
-echo "CODEX_HOME=$CODEX_HOME"
-echo "CODESOME_API_KEY=${CODESOME_API_KEY:0:12}..."
+echo "auth=$HOME/.codex/auth.json"
 echo "config=$HOME/.codex/config.toml"
+echo "OPENAI_API_KEY=${API_KEY:0:12}..."
 echo ""
 log "请新开一个终端，输入 codex 验证。"
