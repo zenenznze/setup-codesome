@@ -168,7 +168,7 @@ read_api_key() {
   local api_key="${2:-}"
   if [[ -z "$api_key" ]]; then
     read -rsp "$prompt" api_key
-    echo ""
+    echo "" >&2
   fi
   if [[ -z "$api_key" ]]; then
     err "API Key 不能为空"
