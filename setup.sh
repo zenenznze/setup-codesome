@@ -15,6 +15,9 @@ info() { echo -e "${BLUE}[..]${NC} $*"; }
 CLAUDE_SETTINGS="$HOME/.claude/settings.json"
 CODEX_AUTH="$HOME/.codex/auth.json"
 CODEX_CONFIG="$HOME/.codex/config.toml"
+CODEX_V5_BASE_URL="https://v5.codesome.cn/openai"
+CODEX_V5_MODEL="gpt-6-astra"
+CODEX_V5_PROVIDER="codesome_v5"
 RC_FILES=(
   "$HOME/.bashrc"
   "$HOME/.bash_profile"
@@ -163,6 +166,58 @@ EOF
   echo "model=$model"
 }
 
+backup_file() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+  local backup="${file}.bak.$(date +%Y%m%d-%H%M%S).$$"
+  cp -p "$file" "$backup"
+  chmod 600 "$backup" 2>/dev/null || true
+  warn "已备份原有配置: $backup"
+}
+
+write_codex_v5_config() {
+  local api_key="$1"
+  local codex_dir="${CODEX_HOME:-$HOME/.codex}"
+  local auth_file="$codex_dir/auth.json"
+  local config_file="$codex_dir/config.toml"
+  local api_key_json
+  api_key_json=$(json_escape "$api_key")
+
+  # V5 使用 Codex 文件认证，不清理 shell rc，也不删除其他工具配置。
+  log "Codex 配置目录: $codex_dir"
+  mkdir -p "$codex_dir"
+  chmod 700 "$codex_dir" 2>/dev/null || true
+
+  backup_file "$config_file"
+  backup_file "$auth_file"
+
+  umask 077
+  cat > "$auth_file" <<EOF
+{
+  "OPENAI_API_KEY": "$api_key_json"
+}
+EOF
+
+  cat > "$config_file" <<EOF
+model = "$CODEX_V5_MODEL"
+model_provider = "$CODEX_V5_PROVIDER"
+
+[model_providers.$CODEX_V5_PROVIDER]
+name = "Codesome V5"
+base_url = "$CODEX_V5_BASE_URL"
+wire_api = "responses"
+requires_openai_auth = true
+EOF
+
+  chmod 600 "$auth_file" "$config_file" 2>/dev/null || true
+
+  log "CodeX 认证已写入: $auth_file"
+  log "CodeX 配置已写入: $config_file"
+  echo "OPENAI_API_KEY=$(mask_secret "$api_key")"
+  echo "base_url=$CODEX_V5_BASE_URL"
+  echo "model=$CODEX_V5_MODEL"
+}
+
 read_api_key() {
   local prompt="$1"
   local api_key="${2:-}"
@@ -206,6 +261,14 @@ configure_choice() {
       write_claude_settings "https://cc.codesome.ai" "$api_key"
       log "完成。请完全退出并重启 VS Code。"
       ;;
+    6|codex-v5)
+      api_key=$(read_api_key "请输入你的 Codesome V5 API Key (cr-...): " "$api_key")
+      if [[ "$api_key" != cr-* ]]; then
+        warn "Key 不是以 cr- 开头，请确认这是 Codesome V5 的 Key。"
+      fi
+      write_codex_v5_config "$api_key"
+      log "完成。请彻底退出所有 Codex 进程后重新打开终端，再运行 codex 验证。"
+      ;;
     *)
       err "无效选择: $choice"
       exit 1
@@ -224,7 +287,8 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   echo "  3) CodeX / GPT 模型 / Codesome"
   echo "  4) CodeX / GPT 模型 / 二合一月卡"
   echo "  5) VS Code Claude Code 插件 / Claude 模型 / Codesome"
-  read -rp "输入 1-5 [1]: " CHOICE
+  echo "  6) CodeX / GPT 模型 / Codesome V5"
+  read -rp "输入 1-6 [1]: " CHOICE
   CHOICE="${CHOICE:-1}"
   echo ""
   configure_choice "$CHOICE" "${1:-}"
