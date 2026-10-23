@@ -38,6 +38,17 @@ json_escape() {
   printf '%s' "$value"
 }
 
+normalize_key() {
+  local key="${1:-}"
+  # 清理终端括号粘贴标记、控制字符和首尾空白，不修改 Key 本身内容。
+  key=${key//$'\e[200~'/}
+  key=${key//$'\e[201~'/}
+  key=$(printf '%s' "$key" | tr -d '[:cntrl:]')
+  key="${key#\"${key%%[![:space:]]*}\"}"
+  key="${key%\"${key##*[![:space:]]}\"}"
+  printf '%s' "$key"
+}
+
 backup_file() {
   local file="$1"
   [[ -f "$file" ]] || return 0
@@ -73,10 +84,16 @@ if [[ -z "${API_KEY:-}" ]]; then
   exit 1
 fi
 
+API_KEY=$(normalize_key "$API_KEY")
+
 if [[ "$API_KEY" != cr-* ]]; then
-  if [[ -t 0 ]]; then
-    warn "Key 不是以 cr- 开头，请确认这是 Codesome V5 的 Key。"
-    read -rp "仍要继续? [y/N]: " CONFIRM
+  if [[ -t 0 ]] || [[ -r /dev/tty ]]; then
+    warn "Key 不是以 cr- 开头（仅格式提醒，尚未写入）。"
+    if [[ -t 0 ]]; then
+      read -rp "仍要继续? [y/N]: " CONFIRM
+    else
+      read -rp "仍要继续? [y/N]: " CONFIRM < /dev/tty
+    fi
     case "${CONFIRM:-}" in
       y|Y|yes|YES) ;;
       *) err "已取消"; exit 1 ;;

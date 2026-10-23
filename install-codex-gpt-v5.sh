@@ -20,6 +20,16 @@ os_name() {
   esac
 }
 
+normalize_key() {
+  local key="${1:-}"
+  key=${key//$'\e[200~'/}
+  key=${key//$'\e[201~'/}
+  key=$(printf '%s' "$key" | tr -d '[:cntrl:]')
+  key="${key#\"${key%%[![:space:]]*}\"}"
+  key="${key%\"${key##*[![:space:]]}\"}"
+  printf '%s' "$key"
+}
+
 read_key() {
   if [ -n "${1:-}" ]; then API_KEY="$1"; else
     if [ -t 0 ]; then
@@ -30,6 +40,7 @@ read_key() {
       err "无交互终端，无法读取 API Key。请先下载脚本再运行。"; exit 1
     fi
   fi
+  API_KEY=$(normalize_key "$API_KEY")
   [ -n "$API_KEY" ] || { err "API Key 不能为空"; exit 1; }
   case "$API_KEY" in
     cr-*) ;;
