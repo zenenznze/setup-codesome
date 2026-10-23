@@ -21,7 +21,15 @@ os_name() {
 }
 
 read_key() {
-  if [ -n "${1:-}" ]; then API_KEY="$1"; else read -rsp "请输入 Codesome V5 API Key (${KEY_HINT}): " API_KEY; echo ""; fi
+  if [ -n "${1:-}" ]; then API_KEY="$1"; else
+    if [ -t 0 ]; then
+      read -rsp "请输入 Codesome V5 API Key (${KEY_HINT}): " API_KEY; echo ""
+    elif [ -r /dev/tty ]; then
+      read -rsp "请输入 Codesome V5 API Key (${KEY_HINT}): " API_KEY < /dev/tty; echo ""
+    else
+      err "无交互终端，无法读取 API Key。请先下载脚本再运行。"; exit 1
+    fi
+  fi
   [ -n "$API_KEY" ] || { err "API Key 不能为空"; exit 1; }
   case "$API_KEY" in
     cr-*) ;;

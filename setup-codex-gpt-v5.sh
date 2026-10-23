@@ -56,8 +56,16 @@ if [[ -n "${1:-}" ]]; then
   API_KEY="$1"
   warn "通过命令行参数传入 Key 可能留在 shell 历史中，建议下次使用交互式输入。"
 else
-  read -rsp "请输入你的 Codesome V5 API Key (cr-...): " API_KEY
-  echo "" >&2
+  if [[ -t 0 ]]; then
+    read -rsp "请输入你的 Codesome V5 API Key (cr-...): " API_KEY
+    echo "" >&2
+  elif [[ -r /dev/tty ]]; then
+    read -rsp "请输入你的 Codesome V5 API Key (cr-...): " API_KEY < /dev/tty
+    echo "" >&2
+  else
+    err "无交互终端，无法读取 API Key。请先下载脚本再运行。"
+    exit 1
+  fi
 fi
 
 if [[ -z "${API_KEY:-}" ]]; then
